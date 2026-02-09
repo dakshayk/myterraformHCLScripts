@@ -7,7 +7,7 @@ resource "aws_instance" "example_instance" {
   instance_type          = "t2.micro"
   key_name               = "saikey"
   vpc_security_group_ids = [aws_security_group.example_sg.id]
-  user_data              =file("script.sh")
+  user_data              =file("script.sh")             #making webserver here taking userdata from script file
 
   root_block_device {
     volume_size = 10
@@ -61,4 +61,17 @@ output "instance_public_ip" {
 output "instance_private_ip" {
   description = "the private ip of ec2 instance"
   value       = aws_instance.example_instance.private_ip
+
 }
+
+
+
+#script.sh file code user_data =file("script.sh")
+#!/bin/bash
+sudo su -
+yum update -y
+yum install httpd -y
+cd /var/www/html
+echo "webserver" > index.html
+service httpd start
+chkconfig httpd on
