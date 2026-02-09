@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "example_instance" {
   ami                    = "ami-0d6dc87355161e1da"
-  instance_type          = "t3.micro"
+  instance_type          = "t3.micro"    #configuration changed from t2.micro to t3.micro
   key_name               = "saikey"
   vpc_security_group_ids = [aws_security_group.example_sg.id]
   count                  = 2
@@ -62,4 +62,5 @@ output "instance_public_ip" {
 output "instance_private_ip" {
   description = "the private ip of ec2 instance"
   value       = aws_instance.example_instance[*].private_ip
+
 }
