@@ -1,20 +1,15 @@
-provider "aws" {
-  region = "ap-south-1"
-}
+resource "aws_instance" "example_instance" {
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  key_name               = "saikey"
+  
+  root_block_device {
+    volume_size = 10
+    volume_type = "gp2"
+  }
 
-module "ec2_instance" {
-  source = "./ec2_module"
-  #instance_type = "t3.micro"
-}
 
-output "ec2_public_ip" {
-  value = module.ec2_instance.instance_public_ip
-}
-
-output "ec2_private_ip" {
-  value = module.ec2_instance.instance_private_ip
-}
-
-output "ec2_instance_type" {
-  value = module.ec2_instance.instance_type
+  tags = { 
+    Name = "Linux-instance"
+  }
 }
